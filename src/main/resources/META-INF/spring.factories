@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.cfdi40.exceptionhandlerstarter.config.ApplicationConfiguration

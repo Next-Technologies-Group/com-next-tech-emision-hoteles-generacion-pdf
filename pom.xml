@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.6.3</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.cfdi40</groupId>
+	<artifactId>generacion-pdf</artifactId>
+	<version>1.5.9</version>
+	<name>generacion-pdf</name>
+	<description>CFDI 4.0 PDF generator (SAT México) built on Spring Boot and iTextPDF.</description>
+	<url>https://github.com/Next-Technologies-Group/com-next-tech-emision-hoteles-generacion-pdf</url>
+
+	<organization>
+		<name>Next Technologies Group</name>
+		<url>https://github.com/Next-Technologies-Group</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>GNU Affero General Public License v3.0 or later</name>
+			<url>https://www.gnu.org/licenses/agpl-3.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>This project is licensed under AGPL v3 in compliance with the iText PDF 5.5.0 dependency.</comments>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/Next-Technologies-Group/com-next-tech-emision-hoteles-generacion-pdf</url>
+		<connection>scm:git:https://github.com/Next-Technologies-Group/com-next-tech-emision-hoteles-generacion-pdf.git</connection>
+		<developerConnection>scm:git:git@github.com:Next-Technologies-Group/com-next-tech-emision-hoteles-generacion-pdf.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20211205</version>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.springfox</groupId>-->
+<!--			<artifactId>springfox-swagger2</artifactId>-->
+<!--			<version>2.9.2</version>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>io.springfox</groupId>-->
+<!--			<artifactId>springfox-swagger-ui</artifactId>-->
+<!--			<version>3.0.0</version>-->
+<!--		</dependency>-->
+
+		 <dependency>
+ 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<!-- Filtering en application.properties para sustituir @app.version@
+			     con la versión del POM en build-time (cumplimiento AGPL §13). -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>application.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>application.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<!--
+			Perfil "apm-internal": empaqueta el agente Elastic APM dentro del JAR
+			para despliegues internos. ACTIVO POR DEFECTO para preservar el
+			comportamiento histórico de build interno. Para builds públicos AGPL
+			"limpios" (sin dependencias no-AGPL en el classpath final), usar:
+			    mvn -Dskip.apm package
+		-->
+		<profile>
+			<id>apm-internal</id>
+			<activation>
+				<property>
+					<name>!skip.apm</name>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>co.elastic.apm</groupId>
+					<artifactId>apm-agent-attach</artifactId>
+					<version>1.36.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<!--
+			Perfil compañero (auto-activado cuando -Dskip.apm está presente).
+			Excluye la clase ElasticApmConfig del compile, ya que importa el
+			paquete co.elastic.apm.attach que solo está disponible cuando el
+			perfil apm-internal está activo. La app sigue funcionando sin esta
+			clase: si en runtime se desea APM en el build público, cargar el
+			agente vía -javaagent:<elastic-apm-agent.jar>.
+		-->
+		<profile>
+			<id>no-apm</id>
+			<activation>
+				<property>
+					<name>skip.apm</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<excludes>
+								<exclude>**/configuration/ElasticApmConfig.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!--
+			Perfil "sonar": configuración de análisis estático para CI/CD
+			interno. No se activa por defecto y mantiene fuera del POM público
+			las URLs/keys del servidor Sonar interno. Activar con: mvn -Psonar
+			y proveer las propiedades vía -D o settings.xml, por ejemplo:
+			    -Dsonar.host.url=https://sonar.example.internal
+			    -Dsonar.projectKey=mi-proyecto
+		-->
+		<profile>
+			<id>sonar</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonarsource.scanner.maven</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
+						<version>3.7.0.1746</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>sonar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>

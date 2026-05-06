@@ -1,0 +1,57 @@
+HELP.md
+
+!.mvn/wrapper/maven-wrapper.jar
+target/classes
+target/generated-sources
+target/generated-test-sources
+target/maven-archiver
+target/maven-status
+target/surefire-reports
+target/test-classes
+#target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Secrets / local config (do not commit) ###
+*.env
+.env
+.env.*
+application-local.properties
+application-local.yml
+application-secrets.properties
+*.jks
+*.p12
+*.pfx
+*.pem
+*.key
+secret*.json
+service-account*.json
+gcp-key*.json
+credentials*.json
+

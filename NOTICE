@@ -1,0 +1,54 @@
+cfdi-4.0-pdf-generador
+Copyright (C) 2025-2026 The cfdi-4.0-pdf-generador Authors
+
+This product is licensed under the GNU Affero General Public License v3.0 or
+later (AGPL-3.0-or-later). See the LICENSE file for the full license text.
+
+This product includes software developed by third parties. The following
+third-party components are included or referenced in this distribution.
+Their respective licenses apply to their portions of the code.
+
+================================================================================
+iText PDF (com.itextpdf:itextpdf:5.5.0)
+  Copyright (C) iText Group NV
+  Licensed under the GNU Affero General Public License v3.0
+  https://itextpdf.com/
+  AGPL v3 (the same license under which this project is distributed).
+  Commercial licenses are available from iText Group NV for users that cannot
+  comply with AGPL terms.
+================================================================================
+Spring Boot (org.springframework.boot:*:2.6.3)
+  Copyright (C) Pivotal Software, Inc. / VMware, Inc.
+  Licensed under the Apache License, Version 2.0
+  https://spring.io/projects/spring-boot
+================================================================================
+MariaDB Connector/J (org.mariadb.jdbc:mariadb-java-client)
+  Copyright (C) MariaDB Corporation Ab
+  Licensed under the GNU Lesser General Public License, version 2.1
+  https://mariadb.com/kb/en/about-mariadb-connector-j/
+================================================================================
+Project Lombok (org.projectlombok:lombok)
+  Copyright (C) The Project Lombok Authors
+  Licensed under the MIT License
+  https://projectlombok.org/
+================================================================================
+JSON in Java (org.json:json:20211205)
+  Copyright (c) 2002 JSON.org
+  Licensed under the JSON License
+  https://github.com/stleary/JSON-java
+================================================================================
+Elastic APM Java Agent (co.elastic.apm:apm-agent-attach:1.36.0)
+  Copyright (C) Elasticsearch B.V.
+  Licensed under the Apache License, Version 2.0 (apm-agent-java 1.36.0)
+  https://github.com/elastic/apm-agent-java
+  NOTE: This dependency is included only when the Maven profile
+  "apm-internal" is active (default behaviour for internal builds). For
+  AGPL-only public distributions, build with `-Dskip.apm` to exclude it.
+================================================================================
+
+The complete source code corresponding to any deployed network-accessible
+version of this software is available, as required by Section 13 of the
+AGPL v3, via the GET /source HTTP endpoint exposed by the application,
+which redirects to:
+
+    https://github.com/Next-Technologies-Group/com-next-tech-emision-hoteles-generacion-pdf
